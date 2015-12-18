@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>About</title>
+		<link rel="shortcut icon" href="favicons/favicon.ico">
+		<link rel="icon" sizes="16x16 32x32 64x64" href="favicons/favicon.ico">
+		<link rel="icon" type="image/png" sizes="196x196" href="favicons/favicon-192.png">
+		<link rel="icon" type="image/png" sizes="160x160" href="favicons/favicon-160.png">
+		<link rel="icon" type="image/png" sizes="96x96" href="favicons/favicon-96.png">
+		<link rel="icon" type="image/png" sizes="64x64" href="favicons/favicon-64.png">
+		<link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32.png">
+		<link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16.png">
+		<link rel="apple-touch-icon" href="favicons/favicon-57.png">
+		<link rel="apple-touch-icon" sizes="114x114" href="favicons/favicon-114.png">
+		<link rel="apple-touch-icon" sizes="72x72" href="favicons/favicon-72.png">
+		<link rel="apple-touch-icon" sizes="144x144" href="favicons/favicon-144.png">
+		<link rel="apple-touch-icon" sizes="60x60" href="favicons/favicon-60.png">
+		<link rel="apple-touch-icon" sizes="120x120" href="favicons/favicon-120.png">
+		<link rel="apple-touch-icon" sizes="76x76" href="favicons/favicon-76.png">
+		<link rel="apple-touch-icon" sizes="152x152" href="favicons/favicon-152.png">
+		<link rel="apple-touch-icon" sizes="180x180" href="favicons/favicon-180.png">
+		<meta name="msapplication-TileColor" content="#FFFFFF">
+		<meta name="msapplication-TileImage" content="favicons/favicon-144.png">
+		<meta name="msapplication-config" content="favicons/browserconfig.xml">
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+		<link rel="stylesheet" href="//storage.googleapis.com/code.getmdl.io/1.0.6/material.indigo-pink.min.css">
+		<link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+		<link rel="stylesheet" type="text/css" href="css/sweetalert.css">
+		<style>
+			*, html {
+				margin: 0;
+				padding: 0;
+			}
+			#pagecontent {
+				padding: 10px;
+			}
+			.demo-card-wide.mdl-card {
+			  width: 512px;
+			}
+			.demo-card-wide > .mdl-card__title {
+			  color: #fff;
+			  height: 176px;
+			  background: url('img/welcome_card.jpg') center / cover;
+			}
+			.demo-card-wide > .mdl-card__menu {
+			  color: #fff;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header" id="layout">
+		  <header class="mdl-layout__header">
+		    <div class="mdl-layout__header-row">
+		      <span class="mdl-layout-title">ChatCloud</span>
+		    </div>
+		  </header>
+		  <div class="mdl-layout__drawer">
+		    <span class="mdl-layout-title">ChatCloud</span>
+		    <nav class="mdl-navigation">
+		      <a class="mdl-navigation__link" href="index.html">Home</a>
+		      <a class="mdl-navigation__link" href="https://github.com/ROODAY/ChatCloud">Source Code</a>
+		    </nav>
+		  </div>
+		  <main class="mdl-layout__content" id="pagecontent">
+			<h2>What is ChatCloud?</h2>
+			<p>
+				ChatCloud is a very simple web application that allows you to create <a href="https://goo.gl/6cAXjS">wordclouds</a> from Facebook chats. The idea was born after seeing <a href="https://github.com/Schmavery">Schmavery</a>'s <a href="https://github.com/Schmavery/facebook-chat-api">facebook-chat-api</a>, a Node.js module that emulates browser actions to access Facebook chats. After seeing such a useful module, I wondered what would be the best way to utilize it. As I couldn't think of anything useful, I decided making a wordcloud was the most logical thing to do. The wordclouds are generated with the help of two of <a href="https://github.com/timdream">timdream</a>'s projects, <a href="https://github.com/timdream/wordfreq">wordfreq</a> and <a href="https://github.com/timdream/wordcloud2.js">wordcloud2.js</a>.
+			</p>
+			<h2>Why is there no official Facebook login method?</h2>
+			<p>
+				The original Facebook Chat API was deprecated and taken out of service, as what is done to all useful API's eventually. The current method with <a href="https://github.com/Schmavery">Schnavery</a>'s module requires login credentials so it can emulate the browser actions necessary to reach the messages page and extract the information. Your login information is not stored by this app, and isn't used for any other purpose than the wordclouds. However, I can't guarantee that some malicious third party will find an exploit, so use this app at your own risk.
+			</p>
+		  </main>
+		</div>
+
+		<script src="//storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js"></script>
+		<script src="js/jquery.js"></script>
+	</body>
+</html>
