@@ -31,6 +31,9 @@
 				margin: 0;
 				padding: 0;
 			}
+			body {
+				overflow-x: hidden;
+			}
 			canvas {
 				display: block;
 			}
@@ -76,8 +79,8 @@
 			#modal {
 				width: 100vw;
 				height: 100vh;
-				position: fixed;
-				margin-top: -100vh;
+				position: absolute;
+				margin-top: -200vh;
 				-webkit-transition: margin-top 1s ease;
 				-moz-transition: margin-top 1s ease;
 			    transition: margin-top 1s ease;
@@ -309,7 +312,7 @@
 			});
 
 			$("#closemodal").click(function(){
-				$("#modal").css("margin-top", "-100vh");
+				$("#modal").css("margin-top", "-200vh");
 				$("#layout").css({
 					'-webkit-filter': 'blur(0px)',
 					'-moz-filter': 'blur(0px)',
