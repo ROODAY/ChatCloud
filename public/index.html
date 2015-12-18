@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>ChatCloud</title>
+		<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css">
+		<link rel="stylesheet" href="//storage.googleapis.com/code.getmdl.io/1.0.6/material.indigo-pink.min.css">
+		<link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+		<link rel="stylesheet" type="text/css" href="css/sweetalert.css">
+		<style>
+			*, html {
+				margin: 0;
+				padding: 0;
+			}
+			canvas {
+				display: block;
+			}
+			#pagecontent {
+				padding: 10px;
+			}
+			.demo-card-wide.mdl-card {
+			  width: 512px;
+			}
+			.demo-card-wide > .mdl-card__title {
+			  color: #fff;
+			  height: 176px;
+			  background: url('img/welcome_card.jpg') center / cover;
+			}
+			.demo-card-wide > .mdl-card__menu {
+			  color: #fff;
+			}
+			#layout {
+				-webkit-filter: blur(5px);
+				  -moz-filter: blur(5px);
+				  -o-filter: blur(5px);
+				  -ms-filter: blur(5px);
+				  filter: blur(5px);
+			}
+			#consentcard {
+				position: fixed;
+				margin-left: -255px;
+			    width: 510px;
+			    left: 50%;
+			    margin-top: 20px;
+			}
+			#inputs {
+				display: none;
+			}
+			#p1 {
+				display: none;
+			}
+			#password {
+				-webkit-text-security: disc;
+				-moz-text-security: disc;
+			    text-security: disc;
+			}
+			#modal {
+				width: 100vw;
+				height: 100vh;
+				position: fixed;
+				margin-top: -100vh;
+				-webkit-transition: margin-top 1s ease;
+				-moz-transition: margin-top 1s ease;
+			    transition: margin-top 1s ease;
+				z-index: 99999;
+			}
+			#closemodal {
+				margin: 10px;
+			}
+			canvas {
+				margin: 10px auto;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="demo-card-wide mdl-card mdl-shadow--2dp" id="consentcard">
+		  <div class="mdl-card__title">
+		    <h2 class="mdl-card__title-text">Please Read</h2>
+		  </div>
+		  <div class="mdl-card__supporting-text">
+		    Before you continue, please understand that to use this app, you must login with your Facebook credentials. Because this app scrapes data from Facebook as opposed to using an official API, there is no official authentication going on. Your login credentials are sent to the server, which logs into Facebook on your behalf to get the data. However, your login credentials will not be stored on the server, and you can check for yourself using the <a href="">source code</a>. But, there is no guarantee that your information may not be intercepted somewhere else along the pipeline by a malicious third party. Use this app at your own risk. By pressing "Ok", you understand that I am not liable for anything unfortunate that may happen to your Facebook account.
+		  </div>
+		  <div class="mdl-card__actions mdl-card--border">
+		    <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" id="consent">
+		      Ok
+		    </a>
+		  </div>
+		</div>
+		<div id="modal">
+			<div id="cloudcontainer"></div>
+			<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id="closemodal">
+			  Close
+			</button>
+		</div>
+		<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header" id="layout">
+		  <header class="mdl-layout__header">
+		    <div class="mdl-layout__header-row">
+		      <span class="mdl-layout-title">ChatCloud</span>
+		    </div>
+		  </header>
+		  <div class="mdl-layout__drawer">
+		    <span class="mdl-layout-title">ChatCloud</span>
+		    <nav class="mdl-navigation">
+		      <a class="mdl-navigation__link" href="">About</a>
+		      <a class="mdl-navigation__link" href="">Source Code</a>
+		    </nav>
+		  </div>
+		  <main class="mdl-layout__content" id="pagecontent">
+		  	<div class="mdl-grid">
+			  <div class="mdl-cell mdl-cell--2-col"></div>
+			  <div class="mdl-cell mdl-cell--8-col">
+			  	<div class="page-content">
+			    	<div id="logincontainer">
+			    		<h3>Login</h3>
+			    		<form action="#">
+						  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+						    <input class="mdl-textfield__input" type="text" id="email">
+						    <label class="mdl-textfield__label" for="email">Email</label>
+						  </div>
+						</form>
+						<form action="#">
+						  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+						    <input class="mdl-textfield__input" type="text" id="password">
+						    <label class="mdl-textfield__label" for="password">Password</label>
+						  </div>
+						</form>
+						<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id="login">Login</button>
+			    	</div>
+			    	<div id="inputs">
+			    		<h3>Chat Information</h3>
+				    	<form action="#">
+						  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+						    <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="threadid">
+						    <label class="mdl-textfield__label" for="threadid">Thread ID</label>
+						    <span class="mdl-textfield__error">Input is not a number!</span>
+						    <div class="mdl-tooltip" for="threadid">
+								The ID of the Facebook chat,<br>
+								found in the url in the <br>
+								all messages page.
+							</div>
+						  </div>
+						</form>
+						<form action="#">
+						  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+						    <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="start">
+						    <label class="mdl-textfield__label" for="start">First Message Index</label>
+						    <span class="mdl-textfield__error">Input is not a number!</span>
+						    <div class="mdl-tooltip" for="start">
+								The number of the first <br>
+								message you want to use <br>
+								for the word cloud.
+							</div>
+						  </div>
+						</form>
+						<form action="#">
+						  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+						    <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="end">
+						    <label class="mdl-textfield__label" for="end">Last Message Index</label>
+						    <span class="mdl-textfield__error">Input is not a number!</span>
+						    <div class="mdl-tooltip" for="end">
+								The number of the last <br>
+								message you want to use <br>
+								for the word cloud.
+							</div>
+						  </div>
+						</form>
+						<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id="submit">Submit</button>
+						<h5 id="status"></h5>
+						<div id="p1" class="mdl-progress mdl-js-progress"></div>
+						<script>
+						  document.querySelector('#p1').addEventListener('mdl-componentupgraded', function() {
+						    this.MaterialProgress.setProgress(0);
+						    this.MaterialProgress.setBuffer(0);
+						  });
+						</script>
+					</div>
+			    </div>
+			  </div>
+			</div>
+		  </main>
+		</div>
+		
+		<script src="//storage.googleapis.com/code.getmdl.io/1.0.6/material.min.js"></script>
+		<script src="js/jquery.js"></script>
+		<script src="/socket.io/socket.io.js"></script>
+		<script src="js/sweetalert.min.js"></script>
+		<script src="js/wordfreq.js"></script>
+		<script src="js/blur.js"></script>
+		<script src="js/wordcloud2.js"></script>
+		<script>
+			var socket = io();
+			var email, password;
+			var PIXEL_RATIO = (function () {
+		    	var ctx = document.createElement("canvas").getContext("2d"),
+			        dpr = window.devicePixelRatio || 1,
+			        bsr = ctx.webkitBackingStorePixelRatio ||
+			              ctx.mozBackingStorePixelRatio ||
+			              ctx.msBackingStorePixelRatio ||
+			              ctx.oBackingStorePixelRatio ||
+			              ctx.backingStorePixelRatio || 1;
+
+			    return dpr / bsr;
+			})();
+			createHiDPICanvas = function(w, h, ratio) {
+			    if (!ratio) { ratio = PIXEL_RATIO; }
+			    var can = document.createElement("canvas");
+			    can.width = w * ratio;
+			    can.height = h * ratio;
+			    can.style.width = w + "px";
+			    can.style.height = h + "px";
+			    can.getContext("2d").setTransform(ratio, 0, 0, ratio, 0, 0);
+			    return can;
+			}
+			var myCanvas = createHiDPICanvas($(window).width() * .9, $(window).width() * .585);
+			document.getElementById('cloudcontainer').appendChild(myCanvas);
+
+			$('#consent').click(function(){
+				$("#consentcard").css("display", "none");
+				swal({   title: "Are you sure?",   text: "Remember, you are inputting your information at your own risk.",   type: "warning",  confirmButtonColor: "#AADE8D",   confirmButtonText: "Yes, I understand!"}, function() {   
+						$("#layout").css({
+							'-webkit-filter': 'blur(0px)',
+							'-moz-filter': 'blur(0px)',
+							'-o-filter': 'blur(0px)',
+							'-ms-filter': 'blur(0px)',
+							'filter': 'blur(0px)'
+						});
+					});
+			});
+
+			$("#login").click(function(){
+				if ($("#email").val() !== "" && $("#password").val() !== "") {
+					swal("Success!", "You're logged in!", "success")
+					email = $("#email").val();
+					password = $("#password").val();
+					$("#logincontainer").css("display", "none");
+					$("#inputs").css("display", "block");
+				} else {
+					swal("Oops...", "You didn't type in your email or password!", "error");
+				}
+			});
+			
+			$("#submit").click(function(){
+				$("h1").html("input sent");
+				var threadid = $("#threadid").val();
+				var start = $("#start").val();
+				var end = $("#end").val();
+				$("#p1").css("display", "block");
+				$("#status").html("Accessing Chat History...");
+				document.querySelector('#p1').MaterialProgress.setProgress(0);
+				document.querySelector('#p1').MaterialProgress.setBuffer(0);
+				socket.emit("inputssent", email, password, threadid, start, end);
+			});
+
+			socket.on("apiready", function(){
+				$("#status").html("Compiling Chat Messages...");
+				document.querySelector('#p1').MaterialProgress.setProgress(25);
+				document.querySelector('#p1').MaterialProgress.setBuffer(25);
+			});
+
+			socket.on("messagetext", function(text){
+				$("#status").html("Counting Word Frequency...");
+				document.querySelector('#p1').MaterialProgress.setProgress(50);
+				document.querySelector('#p1').MaterialProgress.setBuffer(50);
+				var options = {
+				  workerUrl: 'js/wordfreq.worker.js'
+				}
+				var wordfreq = WordFreq(options).process(text, function (list) {
+					$("#status").html("Generating ChatCloud...");
+					document.querySelector('#p1').MaterialProgress.setProgress(75);
+					document.querySelector('#p1').MaterialProgress.setBuffer(75);
+					var cloudoptions  = {
+					  fontFamily: 'Times, serif',
+					  rotateRatio: 0.5,
+					  list: list
+					}
+					WordCloud(myCanvas, cloudoptions );
+					myCanvas.addEventListener('wordcloudstop', function(){
+						$("#status").html("Done!");
+						document.querySelector('#p1').MaterialProgress.setProgress(100);
+						$("#modal").css("margin-top", "0");
+						$("#layout").css({
+							'-webkit-filter': 'blur(5px)',
+							'-moz-filter': 'blur(5px)',
+							'-o-filter': 'blur(5px)',
+							'-ms-filter': 'blur(5px)',
+							'filter': 'blur(5px)'
+						});
+					});
+				});
+			});
+
+			$("#closemodal").click(function(){
+				$("#modal").css("margin-top", "-100vh");
+				$("#layout").css({
+					'-webkit-filter': 'blur(0px)',
+					'-moz-filter': 'blur(0px)',
+					'-o-filter': 'blur(0px)',
+					'-ms-filter': 'blur(0px)',
+					'filter': 'blur(0px)'
+				});
+			});
+
+			socket.on("apierror", function(err){
+				swal("Uh oh!", "Looks like something went wrong in the background! Check the console for more details.", "error");
+				console.error(err);
+			});
+		</script>
+	</body>
+</html>
