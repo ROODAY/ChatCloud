@@ -14,7 +14,7 @@ Once the app is running, navigate to `http://localhost:3000` in your browser (if
     First Message Index:   The index of the first message in the chat history you want to include
      Last Message Index:   The index of the last message in the chat history you want to include
     
-To find the thread ID, copy it from the url when your are in a chat. For example:
+To find the thread ID, copy it from the url when you are in a chat. For example:
 
           URL:  https://www.messenger.com/t/1700528966629083
     Thread ID:  1700528966629083
