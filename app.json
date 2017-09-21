@@ -1,0 +1,7 @@
+{
+  "name": "ChatCloud",
+  "description": "A tool to turn Facebook chats into wordclouds",
+  "repository": "https://github.com/ROODAY/ChatCloud",
+  "logo": "https://node-js-sample.herokuapp.com/node.svg",
+  "keywords": ["node", "express", "facebook", "wordcloud"]
+}
